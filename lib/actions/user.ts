@@ -143,8 +143,20 @@ export async function fetchEvent() {
       venue: item?.venue,
       imgUrl: item?.imgUrl,
       date: item?.date?.toString(),
+      _id: item?._id,
     }));
     return safeEvents;
+  } catch (error) {
+    console.log(error);
+
+    throw new Error('Failed to get Events');
+  }
+}
+export async function deleteEvent(id: string) {
+  try {
+    connectToDB();
+
+    await Event.findByIdAndDelete(id);
   } catch (error) {
     console.log(error);
 

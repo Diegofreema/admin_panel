@@ -18,6 +18,7 @@ export default async function Event() {
           date={dayjs(item?.date).format('MMMM D, YYYY')}
           time={dayjs(item?.date).format('hh:mm A')}
           imgUrl={item?.imgUrl}
+          id={item?._id}
         />
       ))
     ) : (
