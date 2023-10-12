@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
@@ -20,6 +20,10 @@ const EventCard = ({ date, imgUrl, name, venue, time, id }: EventCardProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const handleDelete = async (id: string) => {
     setLoading(true);
     try {
@@ -41,6 +45,9 @@ const EventCard = ({ date, imgUrl, name, venue, time, id }: EventCardProps) => {
       setLoading(false);
     }
   };
+  if (!isMounted) {
+    return null;
+  }
   return (
     <Card className=" mb-4 w-full">
       <CardContent className="space-y-2   pt-4">

@@ -16,6 +16,7 @@ import UploadComponent from './Upload';
 import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { createImage, createVideo } from '@/lib/actions/user';
+import { useEffect, useState } from 'react';
 
 const formSchema = z.object({
   videoUrl: z.string().min(2, {
@@ -25,6 +26,10 @@ const formSchema = z.object({
 type Props = {};
 
 const AddVideo = (props: Props) => {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,6 +59,7 @@ const AddVideo = (props: Props) => {
       });
     }
   }
+  if (!isMounted) return null;
   return (
     <div>
       <Form {...form}>

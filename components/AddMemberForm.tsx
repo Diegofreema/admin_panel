@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -34,6 +34,10 @@ const formSchema = z.object({
 type Props = {};
 
 const AddMemberForm = (props: Props) => {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -64,6 +68,9 @@ const AddMemberForm = (props: Props) => {
         description: 'Something went wrong',
       });
     }
+  }
+  if (!isMounted) {
+    return null;
   }
   return (
     <div>

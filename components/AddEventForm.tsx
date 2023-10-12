@@ -1,13 +1,11 @@
 'use client';
-import React from 'react';
-import { DatePickerInput, DateTimePicker, TimeInput } from '@mantine/dates';
+import { DateTimePicker } from '@mantine/dates';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,7 +16,8 @@ import { Button } from './ui/button';
 import UploadComponent from './Upload';
 import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
-import { createEvent, createMember } from '@/lib/actions/user';
+import { createEvent } from '@/lib/actions/user';
+import { useEffect, useState } from 'react';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -36,6 +35,10 @@ const formSchema = z.object({
 type Props = {};
 
 const AddEvent = (props: Props) => {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -61,7 +64,7 @@ const AddEvent = (props: Props) => {
       toast({
         variant: 'success',
         title: 'Success',
-        description: 'You have added a new member to your team',
+        description: 'You have added a new Event',
       });
       form.reset();
       router.refresh();
@@ -73,6 +76,7 @@ const AddEvent = (props: Props) => {
       });
     }
   }
+  if (!isMounted) return null;
   return (
     <div>
       <Form {...form}>

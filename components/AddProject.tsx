@@ -17,6 +17,7 @@ import UploadComponent from './Upload';
 import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { createProject } from '@/lib/actions/user';
+import { useEffect, useState } from 'react';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -30,6 +31,10 @@ const formSchema = z.object({
 type Props = {};
 
 const AddProject = (props: Props) => {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,6 +64,9 @@ const AddProject = (props: Props) => {
         description: 'Something went wrong',
       });
     }
+  }
+  if (!isMounted) {
+    return null;
   }
   return (
     <div>
