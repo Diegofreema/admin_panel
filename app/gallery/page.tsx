@@ -9,8 +9,8 @@ export default async function Gallery() {
   console.log(videos);
 
   const displayImages =
-    gallery.length > 0 ? (
-      gallery.map((item, i) => (
+    gallery?.length > 0 ? (
+      gallery?.map((item, i) => (
         <Image
           key={i}
           width={200}
@@ -27,8 +27,8 @@ export default async function Gallery() {
       </Title>
     );
   const displayVideos =
-    videos.length > 0 ? (
-      videos.map((item, i) => (
+    videos?.length > 0 ? (
+      videos?.map((item, i) => (
         <video controls key={i} src={item.videoUrl}></video>
       ))
     ) : (

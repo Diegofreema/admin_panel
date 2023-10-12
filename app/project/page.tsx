@@ -7,8 +7,8 @@ export default async function Project() {
   const projects = await fetchProject();
 
   const displayTeam =
-    projects.length > 0 ? (
-      projects.map((item, i) => (
+    projects?.length > 0 ? (
+      projects?.map((item, i) => (
         <Card key={i} className="!h-fit mb-4">
           <CardContent className="flex justify-between flex-col sm:!flex-row space-y-2 items-center pt-4">
             <div className="rounded-full relative w-20 h-20 overflow-hidden">

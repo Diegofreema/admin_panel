@@ -8,8 +8,8 @@ export default async function Home() {
   const team = await fetchTeam();
 
   const displayTeam =
-    team.length > 0 ? (
-      team.map((item: Team, i) => (
+    team?.length > 0 ? (
+      team?.map((item: Team, i) => (
         <Card key={i} className="!h-fit mb-4">
           <CardContent className="flex justify-between flex-col sm:!flex-row space-y-2 items-center pt-4">
             <div className="rounded-full relative w-20 h-20 overflow-hidden">
@@ -17,13 +17,13 @@ export default async function Home() {
                 fill
                 priority
                 alt="image"
-                src={item.imgUrl}
+                src={item?.imgUrl}
                 className=" object-cover"
               />
             </div>
             <div>
-              <p className="uppercase text-bold">{item.name}</p>
-              <p className="capitalize text-semibold">{item.job}</p>
+              <p className="uppercase text-bold">{item?.name}</p>
+              <p className="capitalize text-semibold">{item?.job}</p>
             </div>
           </CardContent>
         </Card>

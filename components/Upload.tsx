@@ -11,7 +11,7 @@ interface Props {
   endpoint:
     | 'teamImage'
     | 'projectImage'
-    | 'projectVideo'
+    | 'eventImage'
     | 'galleryImg'
     | 'galleryVideo';
   onChange: (url: string | undefined) => void;

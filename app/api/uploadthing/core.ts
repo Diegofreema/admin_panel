@@ -9,8 +9,8 @@ export const ourFileRouter = {
   projectImage: f({
     image: { maxFileSize: '4MB', maxFileCount: 1 },
   }).onUploadComplete(() => {}),
-  projectVideo: f({
-    video: { maxFileSize: '1024MB', maxFileCount: 1 },
+  eventImage: f({
+    image: { maxFileSize: '4MB', maxFileCount: 1 },
   }).onUploadComplete(() => {}),
   galleryImg: f({
     image: { maxFileSize: '4MB', maxFileCount: 1 },

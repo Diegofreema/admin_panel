@@ -5,6 +5,8 @@ import Team from '../model/team';
 import Gallery from '../model/gallery';
 import Video from '../model/video';
 import Project from '../model/project';
+import Event from '../model/event';
+import { EventType } from '../types';
 
 export async function createMember(name: string, job: string, imgUrl: string) {
   try {
@@ -45,6 +47,27 @@ export async function createImage(imgUrl: string) {
     console.log(error);
 
     throw new Error('Failed to Create Member');
+  }
+}
+export async function createEvent(
+  name: string,
+  imgUrl: string,
+  venue: string,
+  date: Date
+) {
+  try {
+    connectToDB();
+
+    await Event.create({
+      name,
+      imgUrl,
+      venue,
+      date,
+    });
+  } catch (error) {
+    console.log(error);
+
+    throw new Error('Failed to Create Event');
   }
 }
 export async function createProject(name: string, imgUrl: string) {
@@ -107,5 +130,24 @@ export async function fetchProject() {
     console.log(error);
 
     throw new Error('Failed to get Projects');
+  }
+}
+export async function fetchEvent() {
+  try {
+    connectToDB();
+
+    const events = await Event.find();
+
+    const safeEvents = events?.map((item) => ({
+      name: item?.name,
+      venue: item?.venue,
+      imgUrl: item?.imgUrl,
+      date: item?.date?.toString(),
+    }));
+    return safeEvents;
+  } catch (error) {
+    console.log(error);
+
+    throw new Error('Failed to get Events');
   }
 }
