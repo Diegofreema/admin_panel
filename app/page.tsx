@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { Container, ScrollArea, Title } from '@mantine/core';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
 import AddMemberForm from '@/components/AddMemberForm';
 import { fetchTeam } from '@/lib/actions/user';
 import { Card, CardContent } from '@/components/ui/card';
@@ -29,26 +30,20 @@ export default async function Home() {
         </Card>
       ))
     ) : (
-      <Title ta={'center'} order={2}>
-        Nobody On The Team Yet
-      </Title>
+      <h2 className="text-center font-bold text-xl">Nobody On The Team Yet</h2>
     );
   return (
-    <Container className="mt-[100px] md:mt-[200px]" mt={20} h={'100%'}>
+    <div className="py-[100px]  w-[90%] mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-20 gap-y-8">
         <div className="space-y-16">
-          <Title ta={'center'} order={3}>
-            Add A Member
-          </Title>
+          <h2 className="text-center font-bold text-xl">Add A Member</h2>
           <AddMemberForm />
         </div>
         <div className="space-y-16">
-          <Title order={3} ta={'center'}>
-            All Team Members
-          </Title>
-          <ScrollArea h={'500px'}>{displayTeam}</ScrollArea>
+          <h2 className="text-center font-bold text-xl">All Team Members</h2>
+          <ScrollArea className="max-h-[500px]">{displayTeam}</ScrollArea>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }

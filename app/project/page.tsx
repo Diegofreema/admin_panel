@@ -1,5 +1,7 @@
 import Image from 'next/image';
-import { Container, ScrollArea, Title } from '@mantine/core';
+
+import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { fetchProject } from '@/lib/actions/user';
 import { Card, CardContent } from '@/components/ui/card';
 import AddProject from '@/components/AddProject';
@@ -27,26 +29,20 @@ export default async function Project() {
         </Card>
       ))
     ) : (
-      <Title ta={'center'} order={2}>
-        No Projects Yet
-      </Title>
+      <h2 className="text-center font-bold text-xl">No Projects Yet</h2>
     );
   return (
-    <Container className="mt-[100px] md:mt-[200px]" mt={20} h={'100%'}>
+    <div className="py-[100px]  w-[90%] mx-auto">
       <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-20 gap-y-8">
         <div className="space-y-16">
-          <Title ta={'center'} order={3}>
-            Add A Project
-          </Title>
+          <h2 className="text-center font-bold text-xl">Add A Project</h2>
           <AddProject />
         </div>
         <div className="space-y-16">
-          <Title order={3} ta={'center'}>
-            Project
-          </Title>
-          <ScrollArea h={'500px'}>{displayTeam}</ScrollArea>
+          <h2 className="text-center font-bold text-xl">Project</h2>
+          <ScrollArea className="max-h-[500px]">{displayTeam}</ScrollArea>
         </div>
       </div>
-    </Container>
+    </div>
   );
 }

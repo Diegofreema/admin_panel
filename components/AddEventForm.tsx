@@ -1,5 +1,5 @@
 'use client';
-import { DateTimePicker } from '@mantine/dates';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
@@ -119,12 +119,12 @@ const AddEvent = (props: Props) => {
               <FormItem>
                 <FormLabel>Date</FormLabel>
                 <FormControl>
-                  <DateTimePicker
+                  {/* <DateTimePicker
                     label="Pick date and time"
                     placeholder="Date and Time"
                     value={field.value}
                     onChange={field.onChange}
-                  />
+                  /> */}
                 </FormControl>
 
                 <FormMessage />

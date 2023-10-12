@@ -2,12 +2,9 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-
-import { MantineProvider } from '@mantine/core';
 import { SideBar } from '@/components/SideBar';
 import ToastContainer from '@/components/ToastContainer';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -21,17 +18,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <MantineProvider>
-        <body className={inter.className}>
-          <div className="w-[50px] flex flex-col items-center pt-8 px-5 h-screen fixed inset-y-0 bg-purple-900">
-            <SideBar />
-          </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <div className="w-[50px] flex flex-col items-center pt-8 px-5 h-screen fixed inset-y-0 bg-purple-900">
+          <SideBar />
+        </div>
 
-          <main className="ml-14">{children}</main>
-          <ToastContainer />
-        </body>
-      </MantineProvider>
+        <main className="ml-14">{children}</main>
+        <ToastContainer />
+      </body>
     </html>
   );
 }

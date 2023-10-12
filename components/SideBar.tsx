@@ -2,12 +2,11 @@
 import { useEffect, useState } from 'react';
 import {
   Tooltip,
-  UnstyledButton,
-  Stack,
-  rem,
-  Avatar,
-  Center,
-} from '@mantine/core';
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import {
   IconHome2,
   IconUsers,
@@ -15,6 +14,8 @@ import {
   IconAlbum,
   IconDeviceProjector,
 } from '@tabler/icons-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 
 import { usePathname, useRouter } from 'next/navigation';
 interface NavbarLinkProps {
@@ -36,15 +37,26 @@ function NavbarLink({
     router.push(href);
   };
   return (
-    <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-      <UnstyledButton onClick={handleClick}>
-        <Icon
-          style={{ width: rem(30), height: rem(30) }}
-          color={pathname === href ? 'yellow' : 'white'}
-          stroke={1.5}
-        />
-      </UnstyledButton>
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button
+            className="hover:!bg-transparent hover:!text-[yellow] "
+            variant={'ghost'}
+            onClick={handleClick}
+          >
+            <Icon
+              size={30}
+              color={pathname === href ? 'yellow' : 'white'}
+              stroke={1.5}
+            />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent className="transition !duration-[0.1s] !translate-x-10 ">
+          {label}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
@@ -68,14 +80,17 @@ export function SideBar() {
 
   return (
     <nav className="!p-4">
-      <Center mb={60}>
-        <Avatar src={'/butterfly.jpeg'} size={40} />
-      </Center>
+      <div className="flex items-center justify-center">
+        <Avatar>
+          <AvatarImage src="/butterfly.jpeg" />
+          <AvatarFallback>IMG</AvatarFallback>
+        </Avatar>
+      </div>
 
       <div className="flex flex-col justify-center items-center h-full">
-        <Stack justify="center" gap={20}>
+        <div className="flex flex-col justify-center items-center space-y-5">
           {links}
-        </Stack>
+        </div>
       </div>
     </nav>
   );
