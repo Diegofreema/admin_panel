@@ -1,25 +1,30 @@
 import { fetchEvent } from '@/lib/actions/user';
 import AddEvent from '@/components/AddEventForm';
 import EventCard from '@/components/EventCard';
-import dayjs from 'dayjs';
 import DeleteModal from '@/components/DeleteModal';
+import moment from 'moment-timezone';
 
 export default async function Event() {
   const events = await fetchEvent();
 
   const displayEvents =
     events?.length > 0 ? (
-      events?.map((item, i) => (
-        <EventCard
-          key={i}
-          venue={item?.venue}
-          name={item?.name}
-          date={dayjs(item?.date).format('MMMM D, YYYY')}
-          time={dayjs(item?.date).format('hh:mm A')}
-          imgUrl={item?.imgUrl}
-          id={item?._id.toString()}
-        />
-      ))
+      events?.map((item, i) => {
+        const utcMoment = moment.utc(item?.date);
+        const date = utcMoment.tz('Africa/Lagos').format('DD/MM/YYYY');
+        const time = utcMoment.tz('Africa/Lagos').format('hh:mm A');
+        return (
+          <EventCard
+            key={i}
+            venue={item?.venue}
+            name={item?.name}
+            date={date}
+            time={time}
+            imgUrl={item?.imgUrl}
+            id={item?._id.toString()}
+          />
+        );
+      })
     ) : (
       <h2 className="text-center font-bold text-xl">No Events Yet</h2>
     );

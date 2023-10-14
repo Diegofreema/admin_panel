@@ -13,6 +13,7 @@ import {
   IconCalendarEvent,
   IconAlbum,
   IconDeviceProjector,
+  IconUsersGroup,
 } from '@tabler/icons-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -61,6 +62,7 @@ const mockdata = [
   { icon: IconCalendarEvent, label: 'Event', href: '/event' },
   { icon: IconAlbum, label: 'Gallery', href: '/gallery' },
   { icon: IconDeviceProjector, label: 'Projects', href: '/project' },
+  { icon: IconUsersGroup, label: 'Volunteers', href: '/volunteer' },
 ];
 
 export function SideBar() {

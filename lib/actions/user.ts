@@ -7,6 +7,7 @@ import Video from '../model/video';
 import Project from '../model/project';
 import Event from '../model/event';
 import { EventType } from '../types';
+import Volunteer from '../model/volunteer';
 
 export async function createMember(name: string, job: string, imgUrl: string) {
   try {
@@ -118,6 +119,30 @@ export async function fetchVideos() {
     console.log(error);
 
     throw new Error('Failed to get Videos');
+  }
+}
+export async function fetchVolunteers() {
+  try {
+    connectToDB();
+
+    const volunteer = await Volunteer.find();
+    const safeVolunteer = volunteer?.map((item) => ({
+      email: item?.email,
+      firstName: item?.firstName,
+      lastName: item?.lastName,
+      phoneNumber: item?.phoneNumber,
+      dob: item?.dob.toString(),
+      address: item?.address,
+      skill: item?.skill,
+      country: item?.country,
+      reason: item?.reason,
+      _id: item?._id,
+    }));
+    return safeVolunteer;
+  } catch (error) {
+    console.log(error);
+
+    throw new Error('Failed to get Projects');
   }
 }
 export async function fetchProject() {
