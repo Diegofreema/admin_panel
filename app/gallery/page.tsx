@@ -6,7 +6,6 @@ import AddVideo from '@/components/AddVideo';
 export default async function Gallery() {
   const gallery = await fetchGallery();
   const videos = await fetchVideos();
-  console.log(videos);
 
   const displayImages =
     gallery?.length > 0 ? (

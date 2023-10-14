@@ -37,7 +37,7 @@ export default async function Event() {
         <div className="space-y-16">
           <h2 className="text-center font-bold text-xl">Events</h2>
 
-          <div className="grid max-h-[500px] place-items-center overflow-y-auto grid-cols-1  gap-4">
+          <div className=" max-h-[500px]  overflow-y-auto   space-y-4">
             {displayEvents}
           </div>
         </div>
