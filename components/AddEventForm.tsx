@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
+import DateTimePicker from 'react-datetime-picker';
 import {
   Form,
   FormControl,
@@ -116,15 +117,15 @@ const AddEvent = (props: Props) => {
             control={form.control}
             name="date"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="flex flex-col space-y-2  ">
                 <FormLabel>Date</FormLabel>
-                <FormControl>
-                  {/* <DateTimePicker
-                    label="Pick date and time"
-                    placeholder="Date and Time"
-                    value={field.value}
+                <FormControl className="!pr-3">
+                  <DateTimePicker
+                    className={'!border-transparent !pr-3 w-full  '}
                     onChange={field.onChange}
-                  /> */}
+                    value={field.value}
+                    clearIcon={null}
+                  />
                 </FormControl>
 
                 <FormMessage />

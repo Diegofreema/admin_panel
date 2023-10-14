@@ -41,7 +41,7 @@ export default async function Home() {
         </div>
         <div className="space-y-16">
           <h2 className="text-center font-bold text-xl">All Team Members</h2>
-          <ScrollArea className="max-h-[500px]">{displayTeam}</ScrollArea>
+          <ScrollArea className="h-[500px]">{displayTeam}</ScrollArea>
         </div>
       </div>
     </div>

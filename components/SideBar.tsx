@@ -40,9 +40,8 @@ function NavbarLink({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <Button
+          <p
             className="hover:!bg-transparent hover:!text-[yellow] "
-            variant={'ghost'}
             onClick={handleClick}
           >
             <Icon
@@ -50,7 +49,7 @@ function NavbarLink({
               color={pathname === href ? 'yellow' : 'white'}
               stroke={1.5}
             />
-          </Button>
+          </p>
         </TooltipTrigger>
         <TooltipContent className="transition !duration-[0.1s] !translate-x-10 ">
           {label}

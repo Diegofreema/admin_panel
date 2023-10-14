@@ -2,6 +2,7 @@ import { fetchEvent } from '@/lib/actions/user';
 import AddEvent from '@/components/AddEventForm';
 import EventCard from '@/components/EventCard';
 import dayjs from 'dayjs';
+import DeleteModal from '@/components/DeleteModal';
 
 export default async function Event() {
   const events = await fetchEvent();
@@ -16,7 +17,7 @@ export default async function Event() {
           date={dayjs(item?.date).format('MMMM D, YYYY')}
           time={dayjs(item?.date).format('hh:mm A')}
           imgUrl={item?.imgUrl}
-          id={item?._id}
+          id={item?._id.toString()}
         />
       ))
     ) : (
@@ -24,6 +25,7 @@ export default async function Event() {
     );
   return (
     <div className="py-[100px]  w-[90%] mx-auto">
+      <DeleteModal />
       <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-20 gap-y-8">
         <div>
           <div className="space-y-16">
