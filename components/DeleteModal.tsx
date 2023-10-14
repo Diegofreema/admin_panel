@@ -44,7 +44,7 @@ const DeleteModal = () => {
             </Button>
             <Button
               size={'lg'}
-              className="!border-none !outline-none"
+              className="!border-none !outline-none "
               variant={'purple'}
               onClick={onClose}
             >

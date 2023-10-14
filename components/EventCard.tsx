@@ -56,7 +56,12 @@ const EventCard = ({ date, imgUrl, name, venue, time, id }: EventCardProps) => {
           <p className="capitalize  text-sm font-semibold">Venue: {venue}</p>
         </div>
         {!loading ? (
-          <IconTrash size={30} color="red" onClick={() => handleDelete(id)} />
+          <IconTrash
+            size={30}
+            color="red"
+            className="cursor-pointer"
+            onClick={() => handleDelete(id)}
+          />
         ) : (
           <ColorRing
             visible={true}
