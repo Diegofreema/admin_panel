@@ -15,9 +15,9 @@ import {
   IconDeviceProjector,
 } from '@tabler/icons-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 interface NavbarLinkProps {
   icon: typeof IconHome2;
   label: string;
@@ -31,25 +31,22 @@ function NavbarLink({
 
   href,
 }: NavbarLinkProps) {
-  const router = useRouter();
   const pathname = usePathname();
-  const handleClick = () => {
-    router.push(href);
-  };
+
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <p
+          <Link
+            href={href}
             className="hover:!bg-transparent hover:!text-[yellow] "
-            onClick={handleClick}
           >
             <Icon
               size={30}
               color={pathname === href ? 'yellow' : 'white'}
               stroke={1.5}
             />
-          </p>
+          </Link>
         </TooltipTrigger>
         <TooltipContent className="transition !duration-[0.1s] !translate-x-10 ">
           {label}
