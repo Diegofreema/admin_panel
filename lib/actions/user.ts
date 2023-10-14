@@ -163,3 +163,14 @@ export async function deleteEvent(id: string) {
     throw new Error('Failed to get Events');
   }
 }
+export async function deleteMember(id: string) {
+  try {
+    connectToDB();
+
+    await Team.findByIdAndDelete(id);
+  } catch (error) {
+    console.log(error);
+
+    throw new Error('Failed to get Events');
+  }
+}

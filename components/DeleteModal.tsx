@@ -10,14 +10,20 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from './ui/button';
 import { useDeleteModal } from './modalControl';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useToast } from './ui/use-toast';
 const DeleteModal = () => {
-  const { isOpen, onClose, deleteEvent, id } = useDeleteModal();
+  const { isOpen, onClose, deleteEvent, id, deleteTeam, teamId } =
+    useDeleteModal();
   const router = useRouter();
-  const { toast } = useToast();
+  const pathname = usePathname();
+
   const handleDelete = async () => {
-    await deleteEvent(id);
+    if (pathname === '/event') {
+      await deleteEvent(id);
+    } else {
+      await deleteTeam(teamId);
+    }
 
     onClose();
     router.refresh();
@@ -47,7 +53,7 @@ const DeleteModal = () => {
           </div>
           <DialogDescription>
             This action cannot be undone. Clicking yes will permanently delete
-            this event and remove the data from your server.
+            this from your server.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

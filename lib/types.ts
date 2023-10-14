@@ -2,6 +2,7 @@ export type Team = {
   name: string;
   job: string;
   imgUrl: string;
+  _id: string;
 };
 
 export type EventType = {

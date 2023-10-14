@@ -1,4 +1,4 @@
-import { deleteEvent } from '@/lib/actions/user';
+import { deleteEvent, deleteMember } from '@/lib/actions/user';
 import { create } from 'zustand';
 
 interface ModalState {
@@ -8,6 +8,9 @@ interface ModalState {
   deleteEvent: (id: string) => Promise<void>;
   id: string;
   getId: (id: string) => void;
+  teamId: string;
+  getTeamId: (id: string) => void;
+  deleteTeam: (id: string) => Promise<void>;
 }
 
 export const useDeleteModal = create<ModalState>((set) => ({
@@ -22,6 +25,15 @@ export const useDeleteModal = create<ModalState>((set) => ({
   deleteEvent: async (id: string) => {
     try {
       await deleteEvent(id);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  teamId: '',
+  getTeamId: (id: string) => set({ teamId: id }),
+  deleteTeam: async (id: string) => {
+    try {
+      await deleteMember(id);
     } catch (error) {
       console.log(error);
     }
