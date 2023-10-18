@@ -18,6 +18,9 @@ export const ourFileRouter = {
   galleryVideo: f({
     video: { maxFileSize: '1024MB', maxFileCount: 1 },
   }).onUploadComplete(() => {}),
+  sliderImg: f({
+    image: { maxFileSize: '128MB', maxFileCount: 1 },
+  }).onUploadComplete(() => {}),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

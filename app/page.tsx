@@ -2,44 +2,12 @@ import Image from 'next/image';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import AddMemberForm from '@/components/AddMemberForm';
-import { fetchTeam } from '@/lib/actions/user';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Team } from '@/lib/types';
-import { Button } from '@/components/ui/button';
-import TeamComponents from '@/components/TeamComponents';
-import DeleteModal from '@/components/DeleteModal';
-export default async function Home() {
-  const team = await fetchTeam();
+import LoginModal from '@/components/LoginModal';
 
-  const displayTeam =
-    team?.length > 0 ? (
-      team?.map((item: Team, i) => (
-        <TeamComponents
-          key={i}
-          id={item?._id.toString()}
-          imgUrl={item?.imgUrl}
-          name={item?.name}
-          job={item?.job}
-        />
-      ))
-    ) : (
-      <h2 className="text-center font-bold text-xl">Nobody On The Team Yet</h2>
-    );
+export default async function Home() {
   return (
-    <div className="py-[100px]  w-[90%] mx-auto">
-      <DeleteModal />
-      <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-20 gap-y-8">
-        <div className="space-y-16">
-          <h2 className="text-center font-bold text-xl">Add A Member</h2>
-          <AddMemberForm />
-        </div>
-        <div className="space-y-16">
-          <h2 className="text-center font-bold text-xl">All Team Members</h2>
-          <div className=" max-h-[500px] place-items-center overflow-y-auto">
-            {displayTeam}
-          </div>
-        </div>
-      </div>
+    <div className="py-[100px] min-h-screen  w-[90%] mx-auto">
+      <LoginModal home />
     </div>
   );
 }

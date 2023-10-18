@@ -1,4 +1,5 @@
 'use client';
+import React, { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -6,50 +7,42 @@ import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Button } from './ui/button';
-import UploadComponent from './Upload';
-import { useToast } from './ui/use-toast';
+import { Input } from '@/components/ui/input';
+
 import { useRouter } from 'next/navigation';
-import { createImage } from '@/lib/actions/user';
-import { useEffect, useState } from 'react';
-import { useUser } from '@/hook/useUser';
+import { createMember } from '@/lib/actions/user';
+import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
+import { createObj } from '@/lib/actions/writeUps';
 
 const formSchema = z.object({
-  imageUrl: z.string().min(2, {
-    message: 'Image  is required',
+  heading: z.string().min(2, {
+    message: 'Username must be at least 2 characters.',
+  }),
+  des: z.string().min(2, {
+    message: 'Role must be at least 2 characters.',
   }),
 });
-
 type Props = {};
 
-const AddImage = (props: Props) => {
+const AddMemberForm = (props: Props) => {
   const [isMounted, setIsMounted] = useState(false);
-  const { toast } = useToast();
-
-  const router = useRouter();
-  const { loggedIn } = useUser();
-  useEffect(() => {
-    if (!loggedIn) {
-      router.push('/');
-      toast({
-        variant: 'destructive',
-        title: 'Unauthorized',
-        description: 'Please login',
-      });
-    }
-  }, [toast, router, loggedIn]);
   useEffect(() => {
     setIsMounted(true);
   }, []);
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      imageUrl: '',
+      heading: '',
+      des: '',
     },
   });
 
@@ -57,11 +50,11 @@ const AddImage = (props: Props) => {
   const onInvalid = (errors: any) => console.error(errors);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createImage(values.imageUrl);
+      await createObj(values.heading, values.des);
       toast({
         variant: 'success',
         title: 'Success',
-        description: 'Upload successful',
+        description: 'You have added an Objective',
       });
       form.reset();
       router.refresh();
@@ -77,7 +70,7 @@ const AddImage = (props: Props) => {
     return null;
   }
   return (
-    <div>
+    <div className="container mx-auto">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit, onInvalid)}
@@ -85,22 +78,33 @@ const AddImage = (props: Props) => {
         >
           <FormField
             control={form.control}
-            name="imageUrl"
+            name="heading"
             render={({ field }) => (
               <FormItem>
-                <FormLabel> Image</FormLabel>
+                <FormLabel>Heading</FormLabel>
                 <FormControl>
-                  <UploadComponent
-                    endpoint="galleryImg"
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  <Input {...field} />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="des"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <Button
             disabled={isLoading}
             variant={'purple'}
@@ -115,4 +119,4 @@ const AddImage = (props: Props) => {
   );
 };
 
-export default AddImage;
+export default AddMemberForm;

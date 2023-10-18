@@ -4,6 +4,7 @@ import { VolunteerType } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import moment from 'moment-timezone';
+import DeleteModal from '@/components/DeleteModal';
 
 type Props = {};
 
@@ -38,6 +39,7 @@ const page = async (props: Props) => {
     );
   return (
     <div className="py-[100px]  w-[90%] mx-auto">
+      <DeleteModal />
       <h1 className="text-center font-bold text-xl">Volunteers</h1>
       <div
         className={cn(

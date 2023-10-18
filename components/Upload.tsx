@@ -13,7 +13,8 @@ interface Props {
     | 'projectImage'
     | 'eventImage'
     | 'galleryImg'
-    | 'galleryVideo';
+    | 'galleryVideo'
+    | 'sliderImg';
   onChange: (url: string | undefined) => void;
   value: string;
   video?: boolean;

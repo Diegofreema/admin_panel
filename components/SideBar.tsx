@@ -14,11 +14,16 @@ import {
   IconAlbum,
   IconDeviceProjector,
   IconUsersGroup,
+  IconTargetArrow,
+  IconLogin,
+  IconLogout,
 } from '@tabler/icons-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { IconAdjustmentsHorizontal } from '@tabler/icons-react';
+import { useUser } from '@/hook/useUser';
 interface NavbarLinkProps {
   icon: typeof IconHome2;
   label: string;
@@ -58,21 +63,28 @@ function NavbarLink({
 }
 
 const mockdata = [
-  { icon: IconUsers, label: 'Team', href: '/' },
+  { icon: IconUsers, label: 'Team', href: '/team' },
   { icon: IconCalendarEvent, label: 'Event', href: '/event' },
   { icon: IconAlbum, label: 'Gallery', href: '/gallery' },
   { icon: IconDeviceProjector, label: 'Projects', href: '/project' },
   { icon: IconUsersGroup, label: 'Volunteers', href: '/volunteer' },
+  { icon: IconTargetArrow, label: 'Objectives', href: '/objective' },
+  { icon: IconAdjustmentsHorizontal, label: 'Slider', href: '/slider' },
 ];
 
 export function SideBar() {
   const [isMounted, setIsMounted] = useState(false);
+  const { onOpen, onClose, loggedIn, logout } = useUser();
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
   const links = mockdata.map((link, index) => (
     <NavbarLink {...link} key={link.label} />
   ));
+  const handleLogin = () => {
+    logout();
+  };
 
   if (!isMounted) return null;
 
@@ -88,6 +100,13 @@ export function SideBar() {
       <div className="flex flex-col justify-center items-center h-full">
         <div className="flex flex-col justify-center items-center space-y-5">
           {links}
+          <div className="self-end cursor-pointer">
+            {!loggedIn ? (
+              <IconLogin size={30} color="white" onClick={onOpen} />
+            ) : (
+              <IconLogout size={30} color="white" onClick={logout} />
+            )}
+          </div>
         </div>
       </div>
     </nav>

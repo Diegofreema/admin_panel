@@ -22,6 +22,7 @@ export default async function Event() {
             time={time}
             imgUrl={item?.imgUrl}
             id={item?._id.toString()}
+            type="event"
           />
         );
       })

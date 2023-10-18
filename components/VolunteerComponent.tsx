@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -8,6 +8,10 @@ import {
   CardTitle,
 } from './ui/card';
 import { Button } from './ui/button';
+import { useDeleteModal } from './modalControl';
+import { useUser } from '@/hook/useUser';
+import { useRouter } from 'next/navigation';
+import { useToast } from './ui/use-toast';
 
 type Props = {
   email: string;
@@ -34,8 +38,24 @@ const VolunteerComponent = ({
   reason,
   id,
 }: Props) => {
+  const { getId, onOpen } = useDeleteModal();
+  const { loggedIn } = useUser();
+  const router = useRouter();
+  const { toast } = useToast();
+  useEffect(() => {
+    if (!loggedIn) {
+      router.push('/');
+      toast({
+        variant: 'destructive',
+        title: 'Unauthorized',
+        description: 'Please login',
+      });
+    }
+  }, [toast, router, loggedIn]);
+
   const handleDelete = (id: string) => {
-    console.log(id);
+    onOpen();
+    getId(id);
   };
   return (
     <Card>

@@ -8,9 +8,11 @@ interface ModalState {
 
   id: string;
   getId: (id: string) => void;
+  variant: 'OBJECTIVE' | 'GOAL' | 'PRIORITY';
+  getVariant: (variant: 'OBJECTIVE' | 'GOAL' | 'PRIORITY') => void;
 }
 
-export const useDeleteModal = create<ModalState>((set) => ({
+export const useDeleteItem = create<ModalState>((set) => ({
   isOpen: false,
   onOpen: () =>
     set({
@@ -19,4 +21,7 @@ export const useDeleteModal = create<ModalState>((set) => ({
   onClose: () => set({ isOpen: false }),
   id: '',
   getId: (id: string) => set({ id }),
+
+  variant: 'OBJECTIVE',
+  getVariant: (variant: 'OBJECTIVE' | 'GOAL' | 'PRIORITY') => set({ variant }),
 }));

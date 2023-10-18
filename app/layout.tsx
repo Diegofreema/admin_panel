@@ -6,6 +6,7 @@ import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
 import { SideBar } from '@/components/SideBar';
 import ToastContainer from '@/components/ToastContainer';
+import LoginModal from '@/components/LoginModal';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
+        <LoginModal />
         <div className="w-[50px] flex flex-col items-center pt-8 px-5 h-screen fixed inset-y-0 bg-purple-900">
           <SideBar />
         </div>

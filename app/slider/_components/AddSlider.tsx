@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
+
 import {
   Form,
   FormControl,
@@ -11,45 +12,44 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Button } from './ui/button';
-import UploadComponent from './Upload';
-import { useToast } from './ui/use-toast';
+import { Input } from '@/components/ui/input';
+
 import { useRouter } from 'next/navigation';
-import { createImage } from '@/lib/actions/user';
+
 import { useEffect, useState } from 'react';
-import { useUser } from '@/hook/useUser';
+import { useToast } from '@/components/ui/use-toast';
+import { createSlider } from '@/lib/actions/slider';
+import UploadComponent from '@/components/Upload';
+import { Button } from '@/components/ui/button';
 
 const formSchema = z.object({
+  heading: z.string().min(2, {
+    message: 'Username must be at least 2 characters.',
+  }),
+
   imageUrl: z.string().min(2, {
-    message: 'Image  is required',
+    message: 'Image url is required',
+  }),
+  description: z.string().min(3, {
+    message: 'Venue is required',
   }),
 });
-
 type Props = {};
 
-const AddImage = (props: Props) => {
+const AddSlider = (props: Props) => {
   const [isMounted, setIsMounted] = useState(false);
-  const { toast } = useToast();
-
-  const router = useRouter();
-  const { loggedIn } = useUser();
-  useEffect(() => {
-    if (!loggedIn) {
-      router.push('/');
-      toast({
-        variant: 'destructive',
-        title: 'Unauthorized',
-        description: 'Please login',
-      });
-    }
-  }, [toast, router, loggedIn]);
   useEffect(() => {
     setIsMounted(true);
   }, []);
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      heading: '',
       imageUrl: '',
+
+      description: '',
     },
   });
 
@@ -57,11 +57,11 @@ const AddImage = (props: Props) => {
   const onInvalid = (errors: any) => console.error(errors);
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await createImage(values.imageUrl);
+      await createSlider(values.heading, values.imageUrl, values.description);
       toast({
         variant: 'success',
         title: 'Success',
-        description: 'Upload successful',
+        description: 'You have added a new Event',
       });
       form.reset();
       router.refresh();
@@ -73,9 +73,7 @@ const AddImage = (props: Props) => {
       });
     }
   }
-  if (!isMounted) {
-    return null;
-  }
+  if (!isMounted) return null;
   return (
     <div>
       <Form {...form}>
@@ -85,13 +83,42 @@ const AddImage = (props: Props) => {
         >
           <FormField
             control={form.control}
+            name="heading"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Heading</FormLabel>
+                <FormControl>
+                  <Input placeholder="Heading" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input placeholder="Description" {...field} />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel> Image</FormLabel>
+                <FormLabel>Image</FormLabel>
                 <FormControl>
                   <UploadComponent
-                    endpoint="galleryImg"
+                    endpoint="sliderImg"
                     value={field.value}
                     onChange={field.onChange}
                   />
@@ -115,4 +142,4 @@ const AddImage = (props: Props) => {
   );
 };
 
-export default AddImage;
+export default AddSlider;

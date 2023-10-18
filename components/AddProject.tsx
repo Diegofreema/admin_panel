@@ -18,6 +18,7 @@ import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import { createProject } from '@/lib/actions/user';
 import { useEffect, useState } from 'react';
+import { useUser } from '@/hook/useUser';
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -32,11 +33,24 @@ type Props = {};
 
 const AddProject = (props: Props) => {
   const [isMounted, setIsMounted] = useState(false);
+  const { loggedIn } = useUser();
+  const router = useRouter();
+  const { toast } = useToast();
+  useEffect(() => {
+    if (!loggedIn) {
+      router.push('/');
+      toast({
+        variant: 'destructive',
+        title: 'Unauthorized',
+        description: 'Please login',
+      });
+    }
+  }, [toast, router, loggedIn]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  const { toast } = useToast();
-  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

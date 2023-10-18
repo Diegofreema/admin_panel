@@ -1,9 +1,12 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardFooter } from './ui/card';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { useDeleteModal } from './modalControl';
+import { useUser } from '@/hook/useUser';
+import { useRouter } from 'next/navigation';
+import { useToast } from './ui/use-toast';
 type Props = {
   imgUrl: string;
   name: string;
@@ -12,11 +15,24 @@ type Props = {
 };
 
 const TeamComponents = ({ id, imgUrl, name, job }: Props) => {
-  const { onOpen, getTeamId } = useDeleteModal();
+  const { onOpen, getId } = useDeleteModal();
+  const { loggedIn } = useUser();
+  const router = useRouter();
+  const { toast } = useToast();
+  useEffect(() => {
+    if (!loggedIn) {
+      router.push('/');
+      toast({
+        variant: 'destructive',
+        title: 'Unauthorized',
+        description: 'Please login',
+      });
+    }
+  }, [toast, router, loggedIn]);
 
   const handleDelete = async (teamId: string) => {
     onOpen();
-    getTeamId(teamId);
+    getId(teamId);
   };
   return (
     <Card className="!h-fit mb-4">

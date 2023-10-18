@@ -3,24 +3,51 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useToast } from './ui/use-toast';
 import { ColorRing } from 'react-loader-spinner';
 import { useDeleteModal } from './modalControl';
+import { useUser } from '@/hook/useUser';
 
 interface EventCardProps {
-  name: string;
-  date: string;
-  venue: string;
+  name?: string;
+  date?: string;
+  venue?: string;
   imgUrl: string;
-  time: string;
+  time?: string;
   id: string;
+  heading?: string;
+  description?: string;
+  type: 'event' | 'slider';
 }
-const EventCard = ({ date, imgUrl, name, venue, time, id }: EventCardProps) => {
-  const router = useRouter();
-  const { toast } = useToast();
+const EventCard = ({
+  date,
+  imgUrl,
+  name,
+  venue,
+  time,
+  id,
+  type = 'event',
+  heading,
+  description,
+}: EventCardProps) => {
   const [loading, setLoading] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { loggedIn } = useUser();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { toast } = useToast();
+  useEffect(() => {
+    if (!loggedIn) {
+      router.push('/');
+      toast({
+        variant: 'destructive',
+        title: 'Unauthorized',
+        description: 'Please login',
+      });
+    }
+  }, [toast, router, loggedIn]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -46,14 +73,31 @@ const EventCard = ({ date, imgUrl, name, venue, time, id }: EventCardProps) => {
           />
         </div>
         <div>
-          <p>Date: {date}</p>
-          <p>Time: {time}</p>
+          {type === 'event' && (
+            <>
+              {' '}
+              <p>Date: {date}</p>
+              <p>Time: {time}</p>
+            </>
+          )}
+          {type === 'slider' && (
+            <>
+              <p>Heading: {heading}</p>
+              <p>Description: {description}</p>
+            </>
+          )}
         </div>
       </CardContent>
       <CardFooter className="flex justify-between flex-col sm:!flex-row space-y-4 sm:!space-y-0">
         <div>
-          <p className="uppercase    text-sm font-bold">Theme: {name}</p>
-          <p className="capitalize  text-sm font-semibold">Venue: {venue}</p>
+          {type === 'event' && (
+            <>
+              <p className="uppercase    text-sm font-bold">Theme: {name}</p>
+              <p className="capitalize  text-sm font-semibold">
+                Venue: {venue}
+              </p>
+            </>
+          )}
         </div>
         {!loading ? (
           <IconTrash

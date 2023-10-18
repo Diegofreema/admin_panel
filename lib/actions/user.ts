@@ -8,6 +8,8 @@ import Project from '../model/project';
 import Event from '../model/event';
 import { EventType } from '../types';
 import Volunteer from '../model/volunteer';
+import bcrypt from 'bcrypt';
+import Admin from '../model/admin';
 
 export async function createMember(name: string, job: string, imgUrl: string) {
   try {
@@ -185,7 +187,7 @@ export async function deleteEvent(id: string) {
   } catch (error) {
     console.log(error);
 
-    throw new Error('Failed to get Events');
+    throw new Error('Failed to delete Events');
   }
 }
 export async function deleteMember(id: string) {
@@ -196,6 +198,59 @@ export async function deleteMember(id: string) {
   } catch (error) {
     console.log(error);
 
-    throw new Error('Failed to get Events');
+    throw new Error('Failed to delete Member');
+  }
+}
+export async function deleteVolunteer(id: string) {
+  try {
+    connectToDB();
+
+    await Volunteer.findByIdAndDelete(id);
+  } catch (error) {
+    console.log(error);
+
+    throw new Error('Failed to delete Volunteer');
+  }
+}
+
+export async function createAdmin(name: string, password: string) {
+  try {
+    connectToDB();
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const admin = await Admin.create({
+      name,
+      password: hashedPassword,
+    });
+    return {
+      name: admin.name,
+    };
+  } catch (error) {
+    throw new Error('Failed to create admin');
+  }
+}
+export async function login(name: string, password: string) {
+  try {
+    connectToDB();
+
+    const admin = await Admin.findOne({
+      name,
+    });
+    if (!admin || !admin?.password) {
+      throw new Error('Invalid credentials');
+    }
+    const isCorrectPassword = await bcrypt.compare(password, admin?.password);
+    if (!isCorrectPassword) {
+      throw new Error('Invalid credentials');
+    }
+
+    return {
+      name: admin.name,
+    };
+  } catch (error) {
+    console.log(error);
+
+    throw new Error('Failed to login ');
   }
 }

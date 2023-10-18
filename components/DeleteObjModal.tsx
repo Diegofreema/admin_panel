@@ -9,15 +9,14 @@ import {
 import { Button } from './ui/button';
 import { useDeleteModal } from './modalControl';
 import { usePathname, useRouter } from 'next/navigation';
+import { useDeleteItem } from '@/hook/useDeleteItems';
+import { deleteGoal, deleteObj, deletePriority } from '@/lib/actions/writeUps';
+import { useToast } from './ui/use-toast';
 import { useEffect, useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
-import { deleteEvent, deleteMember, deleteVolunteer } from '@/lib/actions/user';
-import { deleteSlider } from '@/lib/actions/slider';
-import { useToast } from './ui/use-toast';
-const DeleteModal = () => {
-  const { isOpen, onClose, id } = useDeleteModal();
+const DeleteObjModal = () => {
+  const { isOpen, onClose, id, variant } = useDeleteItem();
   const router = useRouter();
-  const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const [mounted, setMounted] = useState(false);
@@ -26,64 +25,49 @@ const DeleteModal = () => {
   }, []);
   const handleDelete = async () => {
     setLoading(true);
-    if (pathname === '/event') {
+    if (variant === 'OBJECTIVE') {
       try {
-        await deleteEvent(id);
+        await deleteObj(id);
         toast({
+          title: 'Objective Deleted',
+          description: 'Objective deleted successfully',
           variant: 'success',
-          title: 'Success',
-          description: 'Event deleted successfully',
         });
       } catch (error) {
         toast({
-          variant: 'destructive',
           title: 'Error',
-          description: 'Failed to delete event , something went wrong',
+          description: 'Something went wrong',
+          variant: 'destructive',
         });
       }
-    } else if (pathname === '/volunteer') {
+    } else if (variant === 'GOAL') {
       try {
-        await deleteVolunteer(id);
+        await deleteGoal(id);
         toast({
+          title: 'Goal Deleted',
+          description: 'Goal deleted successfully',
           variant: 'success',
-          title: 'Success',
-          description: 'Volunteer deleted successfully',
         });
       } catch (error) {
         toast({
-          variant: 'destructive',
           title: 'Error',
-          description: 'Failed to delete volunteer , something went wrong',
-        });
-      }
-    } else if (pathname === '/slider') {
-      try {
-        await deleteSlider(id);
-        toast({
-          variant: 'success',
-          title: 'Success',
-          description: 'Slider deleted successfully',
-        });
-      } catch (error) {
-        toast({
+          description: 'Something went wrong',
           variant: 'destructive',
-          title: 'Error',
-          description: 'Failed to delete slider , something went wrong',
         });
       }
     } else {
       try {
-        await deleteMember(id);
+        await deletePriority(id);
         toast({
+          title: 'Priority Deleted',
+          description: 'Priority deleted successfully',
           variant: 'success',
-          title: 'Success',
-          description: 'Member deleted successfully',
         });
       } catch (error) {
         toast({
-          variant: 'destructive',
           title: 'Error',
-          description: 'Failed to delete member , something went wrong',
+          description: 'Something went wrong',
+          variant: 'destructive',
         });
       }
     }
@@ -99,7 +83,7 @@ const DeleteModal = () => {
       <DialogContent>
         <DialogHeader className="space-y-4">
           <DialogTitle className="text-center">
-            Are you absolutely sure?
+            Are you sure absolutely sure?
           </DialogTitle>
           <div className=" flex items-center justify-center  !space-x-4">
             <Button
@@ -146,4 +130,4 @@ const DeleteModal = () => {
   );
 };
 
-export default DeleteModal;
+export default DeleteObjModal;
